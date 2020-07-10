@@ -22,9 +22,34 @@ import java.util.EnumMap;
  * A JavaFX GUI for the networked Connect Four game.
  *
  * @author RIT CS
- * @author YOUR NAME HERE
+ * @author Jesse Burdick-Pless jb4411@g.rit.edu
  */
 public class ConnectFourGUI extends Application implements Observer<ConnectFourBoard> {
+    /** empty space image */
+    private Image empty = new Image(getClass().getResourceAsStream("empty.png"));
+    /** player 1 space image */
+    private Image p1 = new Image(getClass().getResourceAsStream("p1black.png"));
+    /** player 2 space image */
+    private Image p2 = new Image(getClass().getResourceAsStream("p2red.png"));
+
+    private HBox statusBar;
+    private Label movesMade;
+    private Label currentPlayer;
+    private Label gameStatus;
+
+
+    private class connectButton extends Button {
+        private int row;
+        private int col;
+        private ConnectFourBoard.Player owner;
+
+        public connectButton(int row, int col) {
+            this.row = row;
+            this.col = col;
+            this.owner = ConnectFourBoard.Player.NONE;
+            this.setGraphic(new ImageView(empty));
+        }
+    }
 
     @Override
     public void init() {
@@ -38,7 +63,27 @@ public class ConnectFourGUI extends Application implements Observer<ConnectFourB
      * @throws Exception if there is a problem
      */
     public void start( Stage stage ) throws Exception {
-        // TODO
+        //create the border pane that holds the board and status info
+        BorderPane borderPane = new BorderPane();
+
+        this.statusBar = new HBox();
+        this.movesMade = new Label("0 moves made ");
+        this.currentPlayer = new Label("Current player: ");
+        this.gameStatus = new Label("Status: " + ConnectFourBoard.Status.NOT_OVER);
+
+        this.statusBar.getChildren().add(this.movesMade);
+        this.statusBar.getChildren().add(this.currentPlayer);
+        this.statusBar.getChildren().add(this.gameStatus);
+
+        borderPane.setTop(this.statusBar);
+        BorderPane.setAlignment(this.statusBar, Pos.CENTER);
+
+        //store and display board
+        Scene scene = new Scene(borderPane);
+        stage.setTitle("Connect Four GUI");
+        stage.setScene(scene);
+        stage.setResizable(false);
+
         stage.show();
     }
 
