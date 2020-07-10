@@ -5,6 +5,7 @@ import connectfour.model.Observer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,19 +37,35 @@ public class ConnectFourGUI extends Application implements Observer<ConnectFourB
     private Label movesMade;
     private Label currentPlayer;
     private Label gameStatus;
+    private ConnectButton[][] board;
 
 
-    private class connectButton extends Button {
+    private class ConnectButton extends Button {
         private int row;
         private int col;
         private ConnectFourBoard.Player owner;
 
-        public connectButton(int row, int col) {
+        public ConnectButton(int row, int col) {
             this.row = row;
             this.col = col;
             this.owner = ConnectFourBoard.Player.NONE;
             this.setGraphic(new ImageView(empty));
         }
+    }
+
+    private GridPane makeBoard() {
+        GridPane gridPane = new GridPane();
+
+        for (int row = 0; row < ConnectFourBoard.ROWS; row++) {
+            for (int col = 0; col < ConnectFourBoard.COLS; col++) {
+                ConnectButton button = new ConnectButton(row,col);
+
+                //button.setOnAction(event ->);
+                gridPane.add(button,col,row);
+                this.board[row][col] = button;
+            }
+        }
+        return gridPane;
     }
 
     @Override
@@ -65,6 +82,7 @@ public class ConnectFourGUI extends Application implements Observer<ConnectFourB
     public void start( Stage stage ) throws Exception {
         //create the border pane that holds the board and status info
         BorderPane borderPane = new BorderPane();
+        this.board = new ConnectButton[ConnectFourBoard.ROWS][ConnectFourBoard.COLS];
 
         this.statusBar = new HBox();
         this.movesMade = new Label("0 moves made ");
@@ -74,9 +92,15 @@ public class ConnectFourGUI extends Application implements Observer<ConnectFourB
         this.statusBar.getChildren().add(this.movesMade);
         this.statusBar.getChildren().add(this.currentPlayer);
         this.statusBar.getChildren().add(this.gameStatus);
+        this.statusBar.setAlignment(Pos.CENTER);
+        this.statusBar.setSpacing(100);
 
-        borderPane.setTop(this.statusBar);
-        BorderPane.setAlignment(this.statusBar, Pos.CENTER);
+        borderPane.setBottom(this.statusBar);
+        //BorderPane.setAlignment(this.statusBar, Pos.CENTER);
+
+        // get the grid pane from the helper method
+        GridPane gridPane = makeBoard();
+        borderPane.setCenter(gridPane);
 
         //store and display board
         Scene scene = new Scene(borderPane);
