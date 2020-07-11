@@ -97,11 +97,11 @@ public class ConnectFourGUI extends Application implements Observer<ConnectFourB
      */
     private GridPane makeBoard() {
         GridPane gridPane = new GridPane();
-
+        //build the grid of buttons
         for (int row = 0; row < ConnectFourBoard.ROWS; row++) {
             for (int col = 0; col < ConnectFourBoard.COLS; col++) {
                 ConnectButton button = new ConnectButton(row,col);
-
+                //try to make a move in this button's column
                 button.setOnAction(event -> { if (this.board.isValidMove(button.col)) { this.lastPlaced = button.col; this.board.makeMove(button.col);}});
                 gridPane.add(button,col,row);
                 this.buttonBoard[row][col] = button;
