@@ -3,9 +3,13 @@ CSCI-142 Lab 7: Connect Four
 Answer each of the following questions regarding the design of this application.
 
 1. In terms of MVC, which part does ConnectFourBoard represent?
+It represents the model.
 
 2. In terms of MVC, which *parts* do ConnectFourGUI and ConnectFourPTUI represent?
+They represent the view and the controller.
 
 3. What interface/method must ConnectFourGUI implement?
+They must implement Observer<ConnectFourBoard>.
 
 4. What method in ConnectFourBoard is used to call into ConnectFourGUI when the board changes?
+The method notifyObservers().
