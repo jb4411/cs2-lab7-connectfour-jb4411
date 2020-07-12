@@ -35,7 +35,7 @@ public class ConnectFourGUI extends Application implements Observer<ConnectFourB
 
     /** the HBox that stores the labels for the status bar */
     private HBox statusBar;
-    /** the label that stores the number of move made for the status bar */
+    /** the label that stores the number of moves made for the status bar */
     private Label movesMade;
     /** the label that stores the current player for the status bar */
     private Label currentPlayer;
